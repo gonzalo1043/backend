@@ -1,0 +1,19 @@
+
+<h1>{{product.title}}</h1>
+<ul>
+  <li>Descripcion: {{product.description}}</li>
+  <li>Precio: {{product.price}}</li>
+  <li>categoria: {{product.category}}</li>
+  <li>stock: {{product.stock}}</li>
+</ul>
+<button>Agregar al carrito</button>
+
+{{!-- <script>
+    import { cartManager } from "../src/dao/services/cartManager"
+    
+    function AddToCart (product._id) {
+        const newCart = await cartManager.addCart()
+        const newCartId = newCart._id
+        await cartManager.addProductToCart(newCartId, product._id )
+    }
+</script> --}}
