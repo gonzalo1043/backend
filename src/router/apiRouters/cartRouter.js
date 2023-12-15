@@ -4,7 +4,7 @@ import { cartManager } from '../dao/services/cartManager.js'
 export const cartRouter = Router()
 
 
-cartRouter.post('/carts', async (req, res) => {
+cartRouter.post('/', async (req, res) => {
 try {
     res.json(await cartManager.addCart())
     
@@ -12,7 +12,7 @@ try {
     res.status(400).json({ errorMessage : error.message})
 }})
 
-cartRouter.get('/carts/:cid', async(req, res) => {
+cartRouter.get('/:cid', async(req, res) => {
     try {
         const cartId = req.params.cid
         res.json(await cartManager.getCartById(cartId))
@@ -21,7 +21,7 @@ cartRouter.get('/carts/:cid', async(req, res) => {
     }
 })
 
-cartRouter.post('/carts/:cid/products/:pid', async(req, res) => {
+cartRouter.post('/:cid/products/:pid', async(req, res) => {
     try {
         const cartId = req.params.cid
     
@@ -34,7 +34,7 @@ cartRouter.post('/carts/:cid/products/:pid', async(req, res) => {
     }
 })
 
-cartRouter.delete('/carts/:cid', async (req, res) => {
+cartRouter.delete('/:cid', async (req, res) => {
     try {
         const cartId = req.params.cid
         res.json(await cartManager.deleteAllProductCart(cartId))
@@ -43,7 +43,7 @@ cartRouter.delete('/carts/:cid', async (req, res) => {
     }
 })
 
-cartRouter.delete('/carts/:cid/products/:pid', async (req, res) => {
+cartRouter.delete('/:cid/products/:pid', async (req, res) => {
     try{
         const cartId = req.params.cid
         const productId = req.params.pid
@@ -53,7 +53,7 @@ cartRouter.delete('/carts/:cid/products/:pid', async (req, res) => {
     }
 })
 
-cartRouter.put('/carts/:cid', async (req, res) => {
+cartRouter.put('/:cid', async (req, res) => {
     try {
         const cartId = req.params.cid 
         const cartUpdate = req.body
@@ -63,7 +63,7 @@ cartRouter.put('/carts/:cid', async (req, res) => {
     }
 })
 
-cartRouter.put('/carts/:cid/products/:pid', async (req, res) => {
+cartRouter.put('/:cid/products/:pid', async (req, res) => {
     try {
         const cartId = req.params.cid
         const productId = req.params.pid

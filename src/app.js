@@ -8,10 +8,14 @@ import { engine } from 'express-handlebars'
 import { productsWebRouter } from './router/webRouter/productsWebRouter.js'
 import { cartWebRouter } from './router/webRouter/cartWebRouter.js'
 import { Product } from './dao/models/productMongoose.js'
+import { webRouter } from './router/webRouter/webRouter.js'
+import { apiRouter } from './router/apirestRouter.js'
+import { sessions } from './middleware/session.js'
 
 
 
 await mongoose.connect(MONGODB_CNX_STR)
+console.log(`conectado a base de datos en: ${MONGODB_CNX_STR}`)
 
 // const dataSet = [ 
 //     {title: 'Prueba', description: 'Pre entrega 2', price: 10, status: 'OK', category: 'Prueba', thumbnail: 'none', code: 12, stock: 'SI' },
@@ -28,25 +32,31 @@ await mongoose.connect(MONGODB_CNX_STR)
 // ]
 
 // console.log(await Product.insertMany(dataSet))
+
 const app = express()
-
-app.use(express.json())
-
-app.use('/static', express.static('./static'))
-
-app.engine('handlebars', engine())
-app.set('views', './views')
-app.set('view engine', 'handlebars')
-
-
-
-app.use('/api', productsRouter)
-app.use('/api', cartRouter)
-app.use('/', productsWebRouter)
-app.use('/', cartWebRouter)
 
 
 app.listen(PORT, () => {
     console.log('Conectado al puerto 8080')
 })
+
+
+app.use('/static', express.static('./static'))
+app.use(sessions)
+app.engine('handlebars', engine())
+app.set('views', './views')
+app.set('view engine', 'handlebars')
+
+
+app.use('/', webRouter)
+app.use('/api', apiRouter)
+
+
+// app.use('/api', productsRouter)
+// app.use('/api', cartRouter)
+// app.use('/', productsWebRouter)
+// app.use('/', cartWebRouter)
+
+
+
 

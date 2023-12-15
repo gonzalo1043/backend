@@ -5,7 +5,7 @@ import { productManager } from "../dao/services/ProductManager.js";
 export const productsRouter = Router()
 
 
-productsRouter.get('/products', async (req, res) => {
+productsRouter.get('/', async (req, res) => {
     const limit = parseInt(req.query.limit)
     const page = req.query.page
     const sort = req.query.sort
@@ -13,10 +13,11 @@ productsRouter.get('/products', async (req, res) => {
     const stock = req.query.stock
 
     const products = await productManager.getProducts({limit, page, sort, category, stock})
-        res.json(products)
+    
+    res.json(products)
 })
 
-productsRouter.get('/products/:id', async (req, res) => {
+productsRouter.get('/:id', async (req, res) => {
     try {
         const productosId = req.params.id
         const productWithId = await productManager.getProductById(productosId)
@@ -26,7 +27,7 @@ productsRouter.get('/products/:id', async (req, res) => {
     }
 })
 
-productsRouter.post('/products', async (req, res) => {
+productsRouter.post('/', async (req, res) => {
     try {
         const body = req.body
         res.json (await productManager.addProduct({...body}))
@@ -35,7 +36,7 @@ productsRouter.post('/products', async (req, res) => {
     }
 })
 
-productsRouter.put('/products/:id', async (req, res) => {
+productsRouter.put('/:id', async (req, res) => {
     try {
         const productId = req.params.id
         const productUpdate = req.body
@@ -46,7 +47,7 @@ productsRouter.put('/products/:id', async (req, res) => {
     }
 })
 
-productsRouter.delete('/products/:id', async (req, res) => {
+productsRouter.delete('/:id', async (req, res) => {
     try {
         const productId = req.params.id
         
