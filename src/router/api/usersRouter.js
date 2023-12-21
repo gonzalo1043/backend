@@ -1,6 +1,6 @@
 import {Router} from 'express'
-import { userManager } from '../../dao/models/Users'
-import { loggedInOnlyApi } from '../../middleware/session'
+import { userManager } from '../../dao/models/Users.js'
+import { loggedInOnlyApi } from '../../middleware/auth.js'
 
 export const usersRouter = Router()
 

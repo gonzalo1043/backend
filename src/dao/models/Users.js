@@ -9,7 +9,6 @@ const schema = new mongoose.Schema({
     password: {type: String, required: true},
     name: {type: String, required: true},
     lastname: {type: String, required: true},
-    isAdmin: false
 }, {
     strict: 'throw',
     versionKey: false

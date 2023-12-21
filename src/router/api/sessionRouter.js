@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { userManager } from '../../dao/models/Users'
+import { userManager } from '../../dao/models/Users.js'
 
 export const sessionRouter = Router()
 
