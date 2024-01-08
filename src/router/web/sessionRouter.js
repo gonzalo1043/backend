@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import { userManager } from '../../dao/models/Users.js'
 import { hasheadasSonIguales } from '../../utils/criptografia.js'
+import passport from 'passport'
 
 export const sessionRouter = Router()
 
@@ -57,6 +58,21 @@ sessionRouter.post('/logout', (req, res) => {
         res.redirect('/login')
     })
 })
+
+
+//github
+
+sessionRouter.get('/githublogin',
+  passport.authenticate('github', { scope: ['user:email'] })
+)
+
+sessionRouter.get('/githubcallback',
+  passport.authenticate('github', {
+    successRedirect: '/profile',
+    failureRedirect: '/login',
+  })
+)
+
 
 
 
