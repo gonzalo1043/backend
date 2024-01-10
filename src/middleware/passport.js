@@ -2,8 +2,7 @@ import passport from 'passport'
 
 import { Strategy as GithubStrategy } from 'passport-github2'
 import { githubCallbackUrl, githubClientSecret, githubClienteId } from '../config/serverConfig.js'
-import { userManager } from '../dao/models/Users.js'
-
+import { usersManager } from '../dao/models/UsersMongoose.js'
 
 passport.serializeUser((user, next) => { next(null, user) })
 passport.deserializeUser((user, next) => { next(null, user) })

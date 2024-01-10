@@ -1,54 +1,36 @@
-import {Router} from 'express'
-import { userManager } from '../../dao/models/Users.js'
+import { Router } from 'express'
+import { appendJwtAsCookie, removeJwtFromCookies  } from '../../middleware/authenticate.js'
+import { usersOnly } from '../../middleware/authorization.js'
+import passport from 'passport'
 
-export const sessionRouter = Router()
+export const sessionsRouter = Router()
 
-sessionRouter.post('/login', async (req, res) => {
-    const {email, password} = req.body
+// login
+sessionsRouter.post('/',
+  passport.authenticate('localLogin', {
+    failWithError: true,
+    session: false
+  }),
+  appendJwtAsCookie,
+  async (req, res, next) => {
+    res['successfullPost'](req.user)
+  }
+)
 
-    let userData
+// view
+sessionsRouter.get('/current',
+  passport.authenticate('jwtAuth', {
+    session: false
+  }),
+  usersOnly,
+  async (req, res, next) => {
+    res['successfullGet'](req.user)
+  })
 
-    if(email === 'adminCoder@coder.com' && password === 'adminCod3r123' ) {
-        userData = {
-            email: 'emailadmin',
-            name: 'admin',
-            lastname: 'admin', 
-            isAdmin: true
-
-        }
-    } else {
-        const user = await userManager.findOne({email}).lean()
-
-        if(!user) {
-            return req.status(400).send('Login failed')
-        }
-
-        if(password !== user.password) {
-            return res.status(400).send('Login failed')
-        }
-        userData = {
-            name: user.name,
-            lastname: user.lastname,
-            email: user.email
-        }
-    }
-    req.session['user'] = userData
-    res.status(201).json({status: 'success', message: 'login success'})
-})
-
-sessionRouter.get('/', (req, res) => {
-    if(req.session.user) {
-        return res.json(req.session.user)
-    }
-    res.status(400).json({status: 'error', message: 'no hay una sesion iniciada'})
-})
-
-
-sessionRouter.post('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if(err) {
-            return res.status(500).json({status: 'logout error', body: err})
-        }
-        res.json({status: 'success', message: 'Logout OK!'})
-    })
-})
+// logout
+sessionsRouter.delete('/current',
+  removeJwtFromCookies,
+  async (req, res, next) => {
+    res['successfullDelete']()
+  }
+)
