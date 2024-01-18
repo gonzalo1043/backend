@@ -2,7 +2,7 @@ const btnLogout = document.querySelector('button')
 const spans = document.querySelectorAll('span')
 
 window.addEventListener('load', async () => {
-  const response = await fetch('/api/users/current')
+  const response = await fetch('http://localhost:8080/api/users/current')
   if (response.status !== 200) {
     alert('necesitas loguearte para ver esta info!')
     return (window.location.href = '/login')
